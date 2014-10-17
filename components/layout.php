@@ -3,12 +3,12 @@
 		var $_user;
 		
 		function __construct($user){
-			$_user = $user->columns;
+			$this->_user = $user->columns;
 		}
 		
 		function renderHeader(){
 			?>
-			<div class="navbar navbar-fixed-top">
+			<div class="navbar">
 		      <div class="container">
 		        <div class="navbar-header">
 		          <a href="../" class="navbar-brand">NuForum<span style="font-size:8px; padding-top:-10px;">Platform</span></a>
