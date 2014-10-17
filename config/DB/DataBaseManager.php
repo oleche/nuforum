@@ -1,5 +1,4 @@
 <?php
-//include_once('DataBase.class.php');
 
 class DataBaseManager
 {

@@ -1,7 +1,10 @@
 <?php
 /*********************************************
- Modificaciones:
- Diego V&#65533;squez -- levantar excepciones al detectar error de mysql -- 23/10/2009
+ * 
+ *  Modificaciones:
+ * Diego Vásquez -- levantar excepciones al detectar error de mysql -- 23/10/2009
+ * Oscar Leche -- Refactoring -- 01/04/2014
+ * 
  *********************************************/
  
 // metodos gen&#65533;ricos para la base de datos
