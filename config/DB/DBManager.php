@@ -13,28 +13,22 @@ class DBManager extends DataBaseManager{
 	public $foreign_key = array();
 	var $fetched = false;
 	var $columns_defs = array();
-	var $dbase = "";
-	var $user = "";
-	var $pass = "";
-	var $host = "";
+	var $connection;
 	
 	// constructor
-	function __construct($connection, $db_server, $db_user, $db_pass, $db_database, $db_name, $db_columns, $key, $foreigns = null){
-		parent::__construct($db_server, $db_user, $db_pass, $db_database, $connection);
-		$this->host = $db_server;
-		$this->user = $db_user;
-		$this->pass = $db_pass;
-		$this->dbase = $db_database;
+	function __construct($connection, $db_name, $db_columns, $key, $foreigns = null){
+		parent::__construct($connection);
 		$this->db_name = $db_name;
 		$this->foreign_key = $foreigns;
 		$this->columns_defs = $db_columns;
 		$this->the_key = $key;
 		$this->err_data = "";
+		$this->connection = $connection;
 		foreach ($db_columns as $columnname)
 			$this->columns[$columnname] = "NULL";
 	}
 	
-	function fetch($query, $custom=false, $order = null, $asc = true){
+	function fetch($query="", $custom=false, $order = null, $asc = true){
 		$this->err_data = "";
 		$count = 0;
 		$order_text = "";
@@ -71,7 +65,7 @@ class DBManager extends DataBaseManager{
 			$result = $this->db->Execute($sql);
 			
 			while ($row = mysqli_fetch_assoc($result)){
-				$rowobj = new DBManager($this->db, $this->host, $this->user, $this->pass, $this->dbase, $this->db_name, $this->columns_defs, $this->the_key);
+				$rowobj = new DBManager($this->connection, $this->db_name, $this->columns_defs, $this->the_key);
 				foreach($this->columns_defs as $definitions){
 					$rowobj->columns[$definitions] = $row[$definitions];
 				}
@@ -170,7 +164,7 @@ class DBManager extends DataBaseManager{
 			$result = $this->db->Execute($sql);
 			
 			while ($row = mysqli_fetch_assoc($result)){
-				$rowobj = new DBManager($this->db, $this->host, $this->user, $this->pass, $this->dbase, $this->db_name, $this->columns_defs, $this->the_key);
+				$rowobj = new DBManager($this->connection, $this->db_name, $this->columns_defs, $this->the_key);
 				foreach($this->columns_defs as $definitions){
 					$rowobj->columns[$definitions] = $row[$definitions];
 				}

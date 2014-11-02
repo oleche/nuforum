@@ -3,10 +3,11 @@
 	if (!isset($_SESSION['uid']) || $_SESSION['uid'] == ""){
 		header("location:login.php");
 	}
+	require_once 'config/config.php';
 	require_once 'components/layout.php';
 	require_once 'components/entries.php';
-	require_once 'config/config.php';
 	
+	$uid = $_SESSION['uid'];
 	$user->fetch_id(array('id' => $uid));
 	$layout = new layoutManager($user);
 	$entries = new entriesManager($user, null);
@@ -29,5 +30,6 @@
     <body>
     	<?php $layout->renderHeader(); ?>
     	<?php $entries->render_all(); ?>
+    	<?php $layout->renderFooter(); ?>
 	</body>
 </html>

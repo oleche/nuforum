@@ -4,7 +4,7 @@ class DataBaseManager
 {
 	public $db;
 	
-	public function __construct($server, $user, $password, $database, $connection){
+	public function __construct($connection){
 		//$this->db = new DataBase($server, $user, $password, $database);
 		$this->db = $connection;
 	}
