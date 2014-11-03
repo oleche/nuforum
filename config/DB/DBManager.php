@@ -190,31 +190,33 @@ class DBManager extends DataBaseManager{
 		$key_names = "";
 		$count = 0;
 		
-		foreach ($this->the_key as $keys) {
-			
-			if ($count > 0)
-				$key_names .= ' AND ';
-			
-			$key_names .= $keys."="
-				.((($this->GetType($id[$keys]) == 'boolean' 
-				|| $this->GetType($id[$keys]) == 'float' 
-				|| $this->GetType($id[$keys]) == 'integer' 
-				|| $this->GetType($id[$keys]) == 'numeric' 
-				|| $this->GetType($id[$keys]) == 'NULL'))?"":"'")
-					.(($this->GetType($id[$keys]) == 'NULL')?'NULL':$id[$keys])
-				.((($this->GetType($id[$keys]) == 'boolean' 
-				|| $this->GetType($id[$keys]) == 'float' 
-				|| $this->GetType($id[$keys]) == 'integer' 
-				|| $this->GetType($id[$keys]) == 'numeric' 
-				|| $this->GetType($id[$keys]) == 'NULL'))?"":"'");
-			$count++;
-			
-		}
+		if (count($id) > 0)
+			foreach ($this->the_key as $keys) {
+				
+				if ($count > 0)
+					$key_names .= ' AND ';
+				
+				$key_names .= $keys."="
+					.((($this->GetType($id[$keys]) == 'boolean' 
+					|| $this->GetType($id[$keys]) == 'float' 
+					|| $this->GetType($id[$keys]) == 'integer' 
+					|| $this->GetType($id[$keys]) == 'numeric' 
+					|| $this->GetType($id[$keys]) == 'NULL'))?"":"'")
+						.(($this->GetType($id[$keys]) == 'NULL')?'NULL':$id[$keys])
+					.((($this->GetType($id[$keys]) == 'boolean' 
+					|| $this->GetType($id[$keys]) == 'float' 
+					|| $this->GetType($id[$keys]) == 'integer' 
+					|| $this->GetType($id[$keys]) == 'numeric' 
+					|| $this->GetType($id[$keys]) == 'NULL'))?"":"'");
+				$count++;
+				
+			}
 		
 		
 		
 		if ($cond != ""){
-			$key_names .= " AND ".$cond;
+			$key_names .= ($key_names != "")?" AND ":"";
+			$key_names .= $cond;
 		}
 		
 		$count = 0;

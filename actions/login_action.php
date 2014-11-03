@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	require_once '../config/config.php';
+	require_once $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'].'/config/config.php';
 	
 	$response = array();
 	
@@ -12,12 +12,12 @@
 			$response['http_code'] = 200;
 			$_SESSION['uid'] = $user->columns['id'];
 		}else{
-			$response['payload'] = $_POST;
+			$response['request'] = $_POST;
 			$response['code'] = 1;
 			$response['http_code'] = 403;
 		}
 	}else{
-		$response['payload'] = $_POST;
+		$response['request'] = $_POST;
 		$response['code'] = 1;
 		$response['http_code'] = 403;
 	}

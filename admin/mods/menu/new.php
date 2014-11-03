@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['uid']) || $_SESSION['uid'] == ""){
-		header("location:login.php");
+		header("location:/login.php");
 	}
 	
 	require_once $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'].'/config/config.php';
@@ -76,7 +76,13 @@
 		                    <div class="form-group">
 		                        <label for="description" class="col-sm-3 control-label">Link to</label>
 		                        <div class="col-sm-9">
-		                        	<button class="btn btn-sm btn-primary" id="linkto" style="display: none;">Select</button>
+		                        	<div class="row" id="linktogrp" style="display: none;">
+		                        		<div class="col-sm-4">
+		                        			<button class="btn btn-sm btn-primary" id="linkto">Select</button>
+		                        		</div>
+		                        		<div class="col-sm-8">Select from list</div>
+		                        	</div>
+		                        	
 		                            <input type="text" class="form-control" id="link" name="link">
 		                        </div>
 		                    </div>
