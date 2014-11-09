@@ -107,6 +107,7 @@
 		        </div>
 		        <div class="col-sm-7">
 		        	<div class="panel panel-default filled" style="display: none;">
+		        		<div class="row filled_content"></div>
 	        		</div>
 	        	</div>
     		</div>

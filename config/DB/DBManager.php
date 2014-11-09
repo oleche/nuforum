@@ -10,7 +10,8 @@ class DBManager extends DataBaseManager{
 	public $db_name;
 	public $err_data;
 	public $the_key = array();
-	public $foreign_key = array();
+	public $foreign_relations = array();
+	public $foreign_keys = array();
 	var $fetched = false;
 	var $columns_defs = array();
 	var $connection;
@@ -19,13 +20,17 @@ class DBManager extends DataBaseManager{
 	function __construct($connection, $db_name, $db_columns, $key, $foreigns = null){
 		parent::__construct($connection);
 		$this->db_name = $db_name;
-		$this->foreign_key = $foreigns;
+		$this->foreign_relations = $foreigns;
 		$this->columns_defs = $db_columns;
 		$this->the_key = $key;
 		$this->err_data = "";
 		$this->connection = $connection;
 		foreach ($db_columns as $columnname)
 			$this->columns[$columnname] = "NULL";
+		if (!is_null($foreigns))
+			foreach ($foreigns as $relation => $v) {
+				$this->foreign_keys[] = $relation;
+			}
 	}
 	
 	function fetch($query="", $custom=false, $order = null, $asc = true){
@@ -88,6 +93,8 @@ class DBManager extends DataBaseManager{
 		$valid = false;
 		$statements = array();
 		$tables = array();
+		$ftables = array();
+		$fobjs = array();
 		
 		$base_letter = "A";
 		$tables[] = $this->db_name." ".$base_letter;
@@ -96,8 +103,10 @@ class DBManager extends DataBaseManager{
 		foreach ($objs as $obj) {
 			$base_letter++;
 			$tables[] = $obj->db_name." ".$base_letter;
-			foreach ($this->foreign_key as $fkey => $value) {
+			foreach ($this->foreign_relations as $fkey => $value) {
 				if ($value[0] == $obj->db_name){
+					$fobjs[] = $fkey;
+					$ftables[$fkey] = $obj->columns;
 					if (in_array($value[1], $obj->the_key)){
 						$statements[] = $base_letter.".".$value[1]."="
 						.((($this->GetType($obj->columns[$value[1]]) == 'boolean' 
@@ -166,7 +175,18 @@ class DBManager extends DataBaseManager{
 			while ($row = mysqli_fetch_assoc($result)){
 				$rowobj = new DBManager($this->connection, $this->db_name, $this->columns_defs, $this->the_key);
 				foreach($this->columns_defs as $definitions){
-					$rowobj->columns[$definitions] = $row[$definitions];
+					if (in_array($definitions, $fobjs)){
+						$rowobj->columns[$definitions] = $ftables[$definitions];
+					}else{
+						if (in_array($definitions, $this->foreign_keys)){
+							$this->foreign_relations[$definitions][2]->fetch_id(array($this->foreign_relations[$definitions][1]=>$row[$definitions]));
+							$rowobj->columns[$definitions] = $this->foreign_relations[$definitions][2]->columns;
+						}else{
+							$rowobj->columns[$definitions] = $row[$definitions];	
+						}
+							
+					}
+					
 				}
 				$retorno[] = $rowobj;
 			}
