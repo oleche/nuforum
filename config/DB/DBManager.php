@@ -3,7 +3,8 @@
 include_once("DataBaseManager.php");
 
 class DBManager extends DataBaseManager{
-
+	
+	const SELF = '_self';
 	// atributos heredados
 	// $db
 	public $columns = array();
@@ -27,10 +28,11 @@ class DBManager extends DataBaseManager{
 		$this->connection = $connection;
 		foreach ($db_columns as $columnname)
 			$this->columns[$columnname] = "NULL";
-		if (!is_null($foreigns))
+		if (!is_null($foreigns)){
 			foreach ($foreigns as $relation => $v) {
 				$this->foreign_keys[] = $relation;
 			}
+		}
 	}
 	
 	function fetch($query="", $custom=false, $order = null, $asc = true){
@@ -72,7 +74,21 @@ class DBManager extends DataBaseManager{
 			while ($row = mysqli_fetch_assoc($result)){
 				$rowobj = new DBManager($this->connection, $this->db_name, $this->columns_defs, $this->the_key);
 				foreach($this->columns_defs as $definitions){
-					$rowobj->columns[$definitions] = $row[$definitions];
+					if (in_array($definitions, $this->foreign_keys)){
+						if ($this->foreign_relations[$definitions][2] == $this::SELF){
+							if (is_null($row[$definitions]))
+								$rowobj->columns[$definitions] = $row[$definitions];
+							else{
+								$this->fetch_id(array($this->foreign_relations[$definitions][1]=>$row[$definitions]));
+								$rowobj->columns[$definitions] = $this->foreign_relations[$definitions][2]->columns;
+							}
+						}else{
+							$this->foreign_relations[$definitions][2]->fetch_id(array($this->foreign_relations[$definitions][1]=>$row[$definitions]));
+							$rowobj->columns[$definitions] = $this->foreign_relations[$definitions][2]->columns;
+						}
+					}else{
+						$rowobj->columns[$definitions] = $row[$definitions];	
+					}
 				}
 				$retorno[] = $rowobj;
 			}
@@ -179,8 +195,17 @@ class DBManager extends DataBaseManager{
 						$rowobj->columns[$definitions] = $ftables[$definitions];
 					}else{
 						if (in_array($definitions, $this->foreign_keys)){
-							$this->foreign_relations[$definitions][2]->fetch_id(array($this->foreign_relations[$definitions][1]=>$row[$definitions]));
-							$rowobj->columns[$definitions] = $this->foreign_relations[$definitions][2]->columns;
+							if ($this->foreign_relations[$definitions][2] == $this::SELF){
+								if (is_null($row[$definitions]))
+									$rowobj->columns[$definitions] = $row[$definitions];
+								else{
+									$this->fetch_id(array($this->foreign_relations[$definitions][1]=>$row[$definitions]));
+									$rowobj->columns[$definitions] = $this->foreign_relations[$definitions][2]->columns;
+								}
+							}else{
+								$this->foreign_relations[$definitions][2]->fetch_id(array($this->foreign_relations[$definitions][1]=>$row[$definitions]));
+								$rowobj->columns[$definitions] = $this->foreign_relations[$definitions][2]->columns;
+							}
 						}else{
 							$rowobj->columns[$definitions] = $row[$definitions];	
 						}
@@ -259,14 +284,20 @@ class DBManager extends DataBaseManager{
 	    $sql = 'SELECT * FROM '.$this->db_name.' WHERE '.$key_names.' '.$order_text.';';
 
 		try{
-			$result = $this->db->Execute($sql);
-			
-			if ($row = mysqli_fetch_assoc($result)){
-				foreach($this->columns_defs as $definitions){
-					$this->columns[$definitions] = $row[$definitions];
-				}
-			}else
+			if (is_null($id)){
+				$this->err_data = "No id present";
 				return FALSE;
+			}
+			else{
+				$result = $this->db->Execute($sql);
+				
+				if ($row = mysqli_fetch_assoc($result)){
+					foreach($this->columns_defs as $definitions){
+						$this->columns[$definitions] = $row[$definitions];
+					}
+				}else
+					return FALSE;
+			}
 		}
 		catch(Exception $ex){
 			// si existe un error se deshace la transacci&#65533;n

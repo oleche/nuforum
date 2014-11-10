@@ -80,7 +80,7 @@
 		                        		<div class="col-sm-4">
 		                        			<button class="btn btn-sm btn-primary" id="linkto">Select</button>
 		                        		</div>
-		                        		<div class="col-sm-8">Select from list</div>
+		                        		<div class="col-sm-8 selected-text">Select from list</div>
 		                        	</div>
 		                        	
 		                            <input type="text" class="form-control" id="link" name="link">
@@ -90,8 +90,9 @@
 		                        <label for="description" class="col-sm-3 control-label">Parent</label>
 		                        <div class="col-sm-9">
 		                        	<div class="col-sm-12 text-right">
-		                        		<button class="btn btn-sm btn-danger">None</button>
-		                        		<button class="btn btn-sm btn-primary">Select</button>
+		                        		<input type="hidden" id="parent" name="parent" value="" />
+		                        		<button class="btn btn-sm btn-danger" id="parent-none">None</button>
+		                        		<button class="btn btn-sm btn-primary" id="parent-select">Select</button>
 		                        	</div>
 		                        </div>
 		                    </div>

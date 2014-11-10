@@ -33,11 +33,9 @@
 						break;
 				}
 				$at_query = sprintf("name = '%s'", $type[1]);
-				$at_type->fetch_id( array(), null, true, $at_query );
-				$at_list = $active_table->fetch_obj_in( array( $at_type ) ) ;
-			}else{
-				$at_list = $active_table->fetch() ;
 			}
+			$at_type->fetch_id( array(), null, true, $at_query );
+			$at_list = $active_table->fetch_obj_in( array( $at_type ) ) ;
 			if (($at_type->err_data == "") && (count($at_list) > 0)){
 				$response['code'] = 0;
 				$response['request'] = array();

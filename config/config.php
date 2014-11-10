@@ -28,13 +28,13 @@
 	$key_menu_type = array('id');
 	$menu_type = new DBManager($connection, 'menu_type', $col_menu_type, $key_menu_type);
 	
-	$col_entry_type = array('id', 'name', 'description', 'created_at', 'enabled');
+	$col_entry_type = array('id', 'name', 'description', 'created_at', 'enabled', 'url');
 	$key_entry_type = array('id');
 	$entry_type = new DBManager($connection, 'entry_type', $col_entry_type, $key_entry_type);
 	
-	$col_category = array('id', 'category_type_id', 'name', 'description', 'created_at', 'parent', 'link_url', 'enabled', 'menu_id');
+	$col_category = array('id', 'category_type_id', 'name', 'description', 'created_at', 'parent', 'url', 'enabled', 'menu_id');
 	$key_category = array('id');
-	$foreign_category = array('category_type_id' => array('category_type','id', $category_type),'parent' => array('category','id', '_self'));
+	$foreign_category = array('category_type_id' => array('category_type','id', $category_type),'parent' => array('category','id', DBManager::SELF));
 	$category = new DBManager($connection, 'category', $col_category, $key_category, $foreign_category);
 	
 	$col_entry = array('id', 'created_at', 'updated_at', 'enabled', 'locked', 'user_id', 'category_id', 'title', 'description', 'img_path', 'entry_type_id');
@@ -49,7 +49,7 @@
 	
 	$col_menu = array('id', 'name', 'description', 'parent', 'menu_type_id', 'created_at', 'link_to', 'sec_level', 'enabled', 'visible', 'done');
 	$key_menu = array('id');
-	$foreign_menu = array('parent' => array('menu','id', '_self'),'menu_type_id' => array('menu_type','id', $menu_type));
+	$foreign_menu = array('parent' => array('menu','id', DBManager::SELF),'menu_type_id' => array('menu_type','id', $menu_type));
 	$menu = new DBManager($connection, 'menu', $col_menu, $key_menu, $foreign_menu);
 	
 	
