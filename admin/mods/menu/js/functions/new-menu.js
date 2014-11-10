@@ -16,6 +16,22 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#parent-select").click(function(){
+		$(".filled").fadeIn();
+		$.ajax({
+	        type: 'POST',
+	        url: 'actions/parent_action.php',
+	        data: {setlist: tabledb},
+	        success: function(json) {
+	        	if (json.code == 0){
+	        	}
+	        },
+	        error: function(e, msj, xmlHttpReq) {
+	        	$('.filled_content').html("<center><h1>Items not found</h1></center>");
+	        }
+	    });
+	});
+	
 	$("#linkto").click(function(){
 		$(".filled").fadeIn();
 		$.ajax({
@@ -74,7 +90,3 @@ $(document).ready(function(){
 	    });
 	});
 });
-
-function build_url(data){
-	return "";
-}
