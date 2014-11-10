@@ -21,7 +21,7 @@ $(document).ready(function(){
 		$.ajax({
 	        type: 'POST',
 	        url: 'actions/parent_action.php',
-	        data: {setlist: tabledb},
+	        data: {setmenu: ''},
 	        success: function(json) {
 	        	if (json.code == 0){
 	        	}
