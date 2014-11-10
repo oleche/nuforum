@@ -24,7 +24,25 @@ $(document).ready(function(){
 	        data: {setmenu: ''},
 	        success: function(json) {
 	        	if (json.code == 0){
-	        	}
+	        		var table = $("<table class='table table-hover linkable'></table>");
+					var head = $("<tr></tr>");
+					head.append("<th>Title</th>");
+					head.append("<th>Category</th>");
+					head.append("<th>Entry Type</th>");
+					head.append("<th>Preview</th>");
+					table.prepend(head);
+	        	}else{
+                	$('.filled_content').html("<center><h1>Items not found</h1></center>");
+                }
+                var content = $("<div class='col-sm-12 renderPanelFix'></div>");
+                content.append("<legend>Available Items</legend>");
+                content.append(table);
+                $('.filled_content').html(content);
+                $("tr.linkable-click").click(function(){
+                	var link = $(this).data("link");
+                	$("#link").val(link);
+                	$(".selected-text").html(link);
+                });
 	        },
 	        error: function(e, msj, xmlHttpReq) {
 	        	$('.filled_content').html("<center><h1>Items not found</h1></center>");
