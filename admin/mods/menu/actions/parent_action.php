@@ -6,7 +6,7 @@
 	
 	try{
 		if (isset($_POST['setmenu'])){
-			$at_list = $menu->fetch() ;
+			$at_list = $menu->fetch("parent is null") ;
 			if (count($at_list) > 0){
 				$response['code'] = 0;
 				$response['request'] = array();
@@ -16,7 +16,7 @@
 				$response['http_code'] = 200;
 			}else{
 				$response['request'] = $_POST;
-				$response['message'] = 'Cannot retrieve: '.$_POST['table'];
+				$response['message'] = 'Cannot retrieve menu';
 				$response['code'] = 2;
 				$response['http_code'] = 422;
 			}

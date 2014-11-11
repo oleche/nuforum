@@ -98,7 +98,7 @@
 		                    </div>
 		                    <div class="form-group">
 		                        <div class="col-sm-12 text-right">
-		                            <button type="button" class="btn btn-default preview-add-button">
+		                            <button id="save" type="button" class="btn btn-default preview-add-button">
 		                                <span class="glyphicon glyphicon-save"></span> Save
 		                            </button>
 		                        </div>

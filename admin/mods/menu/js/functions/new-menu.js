@@ -40,14 +40,22 @@ $(document).ready(function(){
                 $('.filled_content').html(content);
                 $("tr.linkable-click").click(function(){
                 	var link = $(this).data("link");
-                	$("#link").val(link);
-                	$(".selected-text").html(link);
+                	$("#parent").val(link);
+                	$(".parent-selected-text").html(link);
                 });
 	        },
 	        error: function(e, msj, xmlHttpReq) {
 	        	$('.filled_content').html("<center><h1>Items not found</h1></center>");
 	        }
 	    });
+	});
+	
+	$("#parent-none").click(function(){
+		$("#parent").val("");
+	});
+	
+	$("#save").click(function(){
+		
 	});
 	
 	$("#linkto").click(function(){
