@@ -24,6 +24,7 @@
 	$config = parse_ini_file("menu/config.ini");
 	
 	$menus = $menu->fetch();
+	
 ?>
 <!DOCTYPE html>
 

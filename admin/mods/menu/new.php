@@ -101,6 +101,7 @@
 		                    </div>
 		                    <div class="form-group">
 		                        <div class="col-sm-12 text-right">
+		                        	<span id="errormsg" class="text-danger"></span>
 		                            <button id="save" type="button" class="btn btn-default preview-add-button">
 		                                <span class="glyphicon glyphicon-save"></span> Save
 		                            </button>

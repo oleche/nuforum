@@ -23,7 +23,7 @@ $(document).ready(function(){
 	$("#nm_form").validate();
 
 	$("#save").click(function(){
-		console.log($("#nm_form").serialize());
+		$("#errormsg").html("");
 		if ($("#nm_form").valid()){
 			$.ajax({
 	        type: 'POST',
@@ -31,13 +31,13 @@ $(document).ready(function(){
 	        data: $("#nm_form").serialize(),
 	        success: function(json) {
 				if (json.code == 0){
-					
+					location.href = "../menu-admin.php?msg=1";
 	            }else{
-	            	
+	            	$("#errormsg").html(json.message);
 	            }
 	        },
 	        error: function(e, msj, xmlHttpReq) {
-	        	
+	        	$("#errormsg").html(msj);
 	        }
 	    });
 		}
