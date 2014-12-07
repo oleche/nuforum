@@ -1,6 +1,16 @@
 <?php
 	session_start();
-	require_once $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'].'/config/config.php';
+	if (!empty($_SERVER['SUBDOMAIN_DOCUMENT_ROOT'])) {
+	  $server_root = $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'];
+	}
+	elseif (!empty($_SERVER['REAL_DOCUMENT_ROOT'])) {
+	  $server_root = $_SERVER['REAL_DOCUMENT_ROOT'];
+	}
+	else {
+	  $server_root = $_SERVER['DOCUMENT_ROOT'];
+	}
+	
+	require_once $server_root.'/config/config.php';
 	
 	$response = array();
 	

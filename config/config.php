@@ -2,9 +2,9 @@
 	include 'DB/DBManager.php';
 	include 'DB/DataBase.class.php';
 	
-	$server = "nuforumdevel.db.5672761.hostedresource.com";
-	$db_user = "nuforumdevel";
-	$db_pass = "g!GGles09";
+	$server = "localhost";
+	$db_user = "root";
+	$db_pass = "";
 	$db_database = "nuforumdevel";
 	
 	$fbappid = "111111111111111";
@@ -44,7 +44,7 @@
 	
 	$col_post = array('id', 'created_at', 'updated_at', 'post_type_id', 'entry_id', 'usuario_id', 'content', 'flagged', 'enabled', 'locked');
 	$key_post = array('id');
-	$foreign_post = array('usuario_id' => array('usuario','id', $user),'post_type_id' => array('post_type','id', $post_type), 'entry_id' => array('entry','id', $entries));
+	$foreign_post = array('usuario_id' => array('usuario','id', $user),'post_type_id' => array('post_type','id', $post_type), 'entry_id' => array('entry','id', $entry));
 	$post = new DBManager($connection, 'post', $col_post, $key_post, $foreign_post);
 	
 	$col_menu = array('id', 'name', 'description', 'parent', 'menu_type_id', 'created_at', 'link_to', 'sec_level', 'enabled', 'visible', 'done');

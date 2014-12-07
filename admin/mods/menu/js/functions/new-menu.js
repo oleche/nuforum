@@ -15,49 +15,34 @@ $(document).ready(function(){
 			tabledb = $(this).find(':selected').data('table');
 		}
 	});
-	
-	$("#parent-select").click(function(){
-		$(".filled").fadeIn();
-		$.ajax({
-	        type: 'POST',
-	        url: 'actions/parent_action.php',
-	        data: {setmenu: ''},
-	        success: function(json) {
-	        	if (json.code == 0){
-	        		var table = $("<table class='table table-hover linkable'></table>");
-					var head = $("<tr></tr>");
-					head.append("<th>Title</th>");
-					head.append("<th>Category</th>");
-					head.append("<th>Entry Type</th>");
-					head.append("<th>Preview</th>");
-					table.prepend(head);
-	        	}else{
-                	$('.filled_content').html("<center><h1>Items not found</h1></center>");
-                }
-                var content = $("<div class='col-sm-12 renderPanelFix'></div>");
-                content.append("<legend>Available Items</legend>");
-                content.append(table);
-                $('.filled_content').html(content);
-                $("tr.linkable-click").click(function(){
-                	var link = $(this).data("link");
-                	$("#parent").val(link);
-                	$(".parent-selected-text").html(link);
-                });
-	        },
-	        error: function(e, msj, xmlHttpReq) {
-	        	$('.filled_content').html("<center><h1>Items not found</h1></center>");
-	        }
-	    });
-	});
-	
+
 	$("#parent-none").click(function(){
 		$("#parent").val("");
 	});
-	
+
+	$("#nm_form").validate();
+
 	$("#save").click(function(){
-		
+		console.log($("#nm_form").serialize());
+		if ($("#nm_form").valid()){
+			$.ajax({
+	        type: 'POST',
+	        url: 'actions/savenm_action.php',
+	        data: $("#nm_form").serialize(),
+	        success: function(json) {
+				if (json.code == 0){
+					
+	            }else{
+	            	
+	            }
+	        },
+	        error: function(e, msj, xmlHttpReq) {
+	        	
+	        }
+	    });
+		}
 	});
-	
+
 	$("#linkto").click(function(){
 		$(".filled").fadeIn();
 		$.ajax({

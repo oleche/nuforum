@@ -4,8 +4,18 @@
 		header("location:/login.php");
 	}
 	
-	require_once $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'].'/config/config.php';
-	require_once $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'].'/components/layout.php';
+	if (!empty($_SERVER['SUBDOMAIN_DOCUMENT_ROOT'])) {
+	  $server_root = $_SERVER['SUBDOMAIN_DOCUMENT_ROOT'];
+	}
+	elseif (!empty($_SERVER['REAL_DOCUMENT_ROOT'])) {
+	  $server_root = $_SERVER['REAL_DOCUMENT_ROOT'];
+	}
+	else {
+	  $server_root = $_SERVER['DOCUMENT_ROOT'];
+	}
+	
+	require_once $server_root.'/config/config.php';
+	require_once $server_root.'/components/layout.php';
 	
 	$uid = $_SESSION['uid'];
 	$user->fetch_id(array('id' => $uid));
@@ -26,6 +36,7 @@
 		}else
 			$type_string .= '<option data-istable="'.$type->columns['table_related'].'" data-table="'.$type->columns['table'].'" value="'.$type->columns['id'].'">'.$type->columns['name'].'</option>';
 	}
+	
 ?>
 <!DOCTYPE html>
 
@@ -33,9 +44,10 @@
     <?php $layout->renderHead(array(
     	"stylesheet" => array(
     		"stylesheet" => $config['base_url']."/menu/css/menu.css",
-		), 
+		),
     	"script" => array(
-    		$config['base_url']."/menu/js/functions/new-menu.js", 
+				"js/jquery.validate.min.js",
+    		$config['base_url']."/menu/js/functions/new-menu.js",
 		)
 	)) ?>
     <body>
@@ -50,11 +62,12 @@
     			<div class="col-sm-5">
 		            <h4>Menu Information:</h4>
 		            <div class="panel panel-default">
+									<form method="post" action="#" id="nm_form" onsubmit="return false">
 		                <div class="panel-body form-horizontal payment-form">
 		                    <div class="form-group">
 		                        <label for="name" class="col-sm-3 control-label">Name</label>
 		                        <div class="col-sm-9">
-		                            <input type="text" class="form-control" id="name" name="name">
+		                            <input type="text" class="form-control" id="name" name="name" required>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
@@ -62,11 +75,11 @@
 		                        <div class="col-sm-9">
 		                            <input type="text" class="form-control" id="description" name="description">
 		                        </div>
-		                    </div> 
+		                    </div>
 		                    <div class="form-group">
 		                        <label for="type" class="col-sm-3 control-label">Type</label>
 		                        <div class="col-sm-9">
-		                            <select class="form-control" id="type" name="type">
+		                            <select class="form-control" id="type" name="type" required>
 		                                <?php
 											echo $type_string;
 		                                ?>
@@ -82,18 +95,8 @@
 		                        		</div>
 		                        		<div class="col-sm-8 selected-text">Select from list</div>
 		                        	</div>
-		                        	
-		                            <input type="text" class="form-control" id="link" name="link">
-		                        </div>
-		                    </div>
-		                    <div class="form-group">
-		                        <label for="description" class="col-sm-3 control-label">Parent</label>
-		                        <div class="col-sm-9">
-		                        	<div class="col-sm-12 text-right">
-		                        		<input type="hidden" id="parent" name="parent" value="" />
-		                        		<button class="btn btn-sm btn-danger" id="parent-none">None</button>
-		                        		<button class="btn btn-sm btn-primary" id="parent-select">Select</button>
-		                        	</div>
+
+		                            <input type="text" class="form-control" id="link" name="link" required>
 		                        </div>
 		                    </div>
 		                    <div class="form-group">
@@ -104,7 +107,8 @@
 		                        </div>
 		                    </div>
 		                </div>
-		            </div>            
+									</form>
+		            </div>
 		        </div>
 		        <div class="col-sm-7">
 		        	<div class="panel panel-default filled" style="display: none;">
