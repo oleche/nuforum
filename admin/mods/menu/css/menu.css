@@ -7,3 +7,15 @@
 .linkable-click{
 	cursor:pointer;
 }
+
+body.modal-open #wrap{
+    -webkit-filter: blur(7px) !important;
+    -moz-filter: blur(15px) !important;
+    -o-filter: blur(15px) !important;
+    -ms-filter: blur(15px) !important;
+    filter: blur(15px) !important;
+}
+  
+.dataTables_processing{display: none !important;}
+
+.modal-backdrop {background: #f7f7f7;}

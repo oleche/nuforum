@@ -30,7 +30,7 @@
 										echo "<script type='$type' src='".$protocol.$_SERVER['SERVER_NAME']."/".$resource."'></script>";
 									break;
 									case 'stylesheet':
-										$rel = (!is_numeric($rkey))?$rkey:'';
+										$rel = (!is_numeric($rkey))?$rkey:'stylesheet';
 										echo "<link rel='$rel' href='".$protocol.$_SERVER['SERVER_NAME']."/".$resource."'/>";
 									break;
 									case 'metadata':
@@ -62,7 +62,7 @@
 					              <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="dropper">Menu Admin <span class="caret"></span></a>
 					              <ul class="dropdown-menu" aria-labelledby="dropped">
 					                <li><a href="/admin/mods/menu-admin.php">Show Menus</a></li>
-					                <li><a href="./">Show Relations</a></li>
+					                <li><a href="/admin/mods/relations.php">Show Relations</a></li>
 					                <li class="divider"></li>
 					                <li><a href="./">Create New Menu</a></li>
 					              </ul>

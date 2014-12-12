@@ -362,7 +362,7 @@ class DBManager extends DataBaseManager{
 		return $count;
 	}
 	
-	function delete($id){
+	function delete(){
 		$this->err_data = "";
 		
 		$key_names = "";
@@ -370,7 +370,7 @@ class DBManager extends DataBaseManager{
 		foreach ($this->the_key as $keys) {
 			if ($count > 0)
 				$key_names .= ' AND ';
-			$key_names = 'a.'.$key.'='
+			$key_names .= 'a.'.$keys.'='
 				.((($this->GetType($this->columns[$keys]) == 'boolean' 
 				|| $this->GetType($this->columns[$keys]) == 'float' 
 				|| $this->GetType($this->columns[$keys]) == 'integer' 
@@ -389,6 +389,8 @@ class DBManager extends DataBaseManager{
 		
 		try{
 			$this->BeginTransaction();
+			
+			$this->db->Execute($sql);
 			
 			$this->Commit();	
 		}
